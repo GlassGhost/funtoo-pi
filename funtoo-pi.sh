@@ -47,9 +47,12 @@ sleep 2 && sudo mkfs.vfat -F 16 ${blkidDev}1
 sleep 2 && sudo mkswap ${blkidDev}2
 sleep 2 && sudo mkfs.ext4 ${blkidDev}3
 
+#add boot flag to 1st partition
+sudo sfdisk -A 1 ${blkidDev}
+
 #Mounting the partitions
-sleep 2 && mkdir /mnt/gentoo && mount ${blkidDev}3 /mnt/gentoo
-sleep 2 && mkdir /mnt/gentoo/boot/ && mount ${blkidDev}1 /mnt/gentoo/boot
+sleep 2 && mkdir /mnt/gentoo && sleep 2 && sudo mount ${blkidDev}3 /mnt/gentoo
+sleep 2 && mkdir /mnt/gentoo/boot && sleep 2 && sudo mount ${blkidDev}1 /mnt/gentoo/boot
 
 #Extract Stage 3 Image
 #Gentoo
@@ -81,9 +84,9 @@ sleep 2 && mkdir /mnt/gentoo/boot/ && mount ${blkidDev}1 /mnt/gentoo/boot
 
 #Install kernel and modules
 #The Raspberry Pi Foundation maintain a branch of the Linux kernel that will run on the Raspberry Pi, including a compiled version which we use here.
-cd /tmp/ && rm -rf /tmp/firmware
+cd /tmp && rm -rf /tmp/firmware
 git clone --depth 1 git://github.com/raspberrypi/firmware/
-cd /firmware/boot
+cd /tmp/firmware/boot
 cp ./* /mnt/gentoo/boot/
 cp -r ../modules /mnt/gentoo/lib/
 
