@@ -97,8 +97,8 @@ sudo tee "/mnt/gentoo/etc/fstab" > /dev/null <<EOF
 #
 # <file system>		<mount point>	<type>	<options>				<dump>	<pass>
 /dev/mmcblk0p1		/boot			auto	noauto,noatime			1		2
-/dev/mmcblk0p2		/				ext4	noatime					0		1
-/dev/mmcblk0p3		none			swap	sw						0		0
+/dev/mmcblk0p2		none			swap	sw						0		0
+/dev/mmcblk0p3		/				ext4	noatime					0		1
 EOF
 #Set boot options
 sudo tee "/mnt/gentoo/boot/cmdline.txt" > /dev/null <<EOF
