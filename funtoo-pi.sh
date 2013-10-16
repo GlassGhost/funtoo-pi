@@ -42,13 +42,13 @@ sudo sfdisk ${blkidDev} -u M <<EOF
 ,,L
 EOF
 #format disks
-sleep 2 && sudo mkfs.vfat -F 16 ${blkidDev}1
+sleep 2 && sudo mkfs.vfat -F 16 -n boot ${blkidDev}1
 #sleep 2 && sudo dd bs=512 count=1 if=/dev/zero of=${blkidDev}1
-sleep 2 && sudo mkswap ${blkidDev}2
-sleep 2 && sudo mkfs.ext4 ${blkidDev}3
+sleep 2 && sudo mkswap -L swap ${blkidDev}2
+sleep 2 && sudo mkfs.ext4 -L pi ${blkidDev}3
 
 #add boot flag to 1st partition
-sudo sfdisk -A 1 ${blkidDev}
+sudo sfdisk ${blkidDev} -A 1
 
 #Mounting the partitions
 sleep 2 && mkdir /mnt/gentoo && sleep 2 && sudo mount ${blkidDev}3 /mnt/gentoo
