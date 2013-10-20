@@ -28,7 +28,7 @@ blkidDev=$1
 txzExtract (){ infile=$1; outfile=$2
 #txzExtract "/path/to/somearchive.tar.xz" "/path/to/some_directory"
 	echo "";
-	nice -19 xz -dc $infile | tar xvpC "$outfile" \
+	nice -19 xz -dc $infile | sudo tar xvpC "$outfile" \
 	2>&1 | while read line; do
 		x=$((x+1))
 		echo -en "\r$x extracted";
@@ -37,17 +37,16 @@ txzExtract (){ infile=$1; outfile=$2
 
 #partion disks
 sudo sfdisk ${blkidDev} -u M <<EOF
-,31,L
-,224,S
+,63,c
+,256,S
 ,,L
 EOF
-sudo partprobe
-sudo sfdisk --change-id ${blkidDev} 1 c
 #format disks
+sudo partprobe ${blkidDev}
 #sleep 2 && sudo dd bs=512 count=1 if=/dev/zero of=${blkidDev}1
-sleep 5 && sudo mkfs.vfat -F 16 -n boot ${blkidDev}1
-sleep 5 && sudo mkswap -L swap ${blkidDev}2
-sleep 5 && sudo mkfs.ext4 -L pi ${blkidDev}3
+sleep 2 && sudo mkfs.vfat -F 16 -n boot ${blkidDev}1
+sleep 2 && sudo mkswap -L swap ${blkidDev}2
+sleep 2 && sudo mkfs.ext4 -L pi ${blkidDev}3
 
 #add boot flag to 1st partition
 sudo sfdisk ${blkidDev} -A 1
