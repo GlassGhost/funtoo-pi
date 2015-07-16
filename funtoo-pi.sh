@@ -113,10 +113,10 @@ EOF
 passwd_raspberry="$(python -c "import crypt, getpass, pwd; print crypt.crypt('raspberry', '\$6\$SALTsalt\$')")"
 sudo sed -i "s/root.*/root:${passwd_raspberry}:14698:0:::::/" /mnt/pi/etc/shadow
 #enable SSH & ethernet
-sudo ln -sf /mnt/pi/etc/init.d/sshd /mnt/pi/etc/runlevels/default
-sudo ln -sf /mnt/pi/etc/init.d/dhcpcd /mnt/pi/etc/runlevels/default
+sudo ln -sf /etc/init.d/sshd /mnt/pi/etc/runlevels/default
+sudo ln -sf /etc/init.d/dhcpcd /mnt/pi/etc/runlevels/default
 #Use swclock
-sudo ln -sf /mnt/pi/etc/init.d/swclock /mnt/pi/etc/runlevels/boot
+sudo ln -sf /etc/init.d/swclock /mnt/pi/etc/runlevels/boot
 sudo rm /mnt/pi/etc/runlevels/boot/hwclock
 sudo mkdir -p /mnt/pi/lib/rc/cache
 sudo touch /mnt/pi/lib/rc/cache/shutdowntime
